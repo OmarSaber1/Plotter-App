@@ -8,7 +8,5 @@ export interface ListItemProps {
 
 export interface ListItemsProps {
   items: ListItemProps[];
-  setItems: React.Dispatch<React.SetStateAction<ListItemProps[]>>;
   droppedItem: ListItemProps | null;
-  setDroppedItem: React.Dispatch<React.SetStateAction<ListItemProps | null>>;
 }
