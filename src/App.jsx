@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { LineChart } from "./components/LineChart/LineChart";
-import { DragAndDrop } from "./components/LineChart/DragAndDrop/DragAndDrop";
+import { DragAndDrop } from "./components/DragAndDrop/DragAndDrop";
+// import { LineChart } from "./components/LineChart/LineChart";
 
 export const App = () => {
   const [data, setData] = useState();
@@ -29,9 +29,9 @@ export const App = () => {
     <div>
       {/* Render LineChart component with fetched data */}
       <DragAndDrop />
-      {data && (
+      {/* {data && (
         <LineChart data={data} dimension={dimension} measures={measures} />
-      )}
+      )} */}
     </div>
   );
 };

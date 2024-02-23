@@ -1,123 +1,98 @@
 import React, { useState, DragEvent } from "react";
+import { ListItemProps } from "../../types/ListProps";
+import { DropZone } from "../DropZone/DropZone";
+import { ListItems } from "../ListItems/ListItems";
+import { InitialDimensions, InitialMeasures } from "./constants";
 import "./DragAndDrop.css";
 
-interface ItemProps {
-  id: string;
-  name: string;
-  handleDragStart?: (e: DragEvent<HTMLDivElement>) => void;
-}
+export const DragAndDrop: React.FC = () => {
+  const [dimensions, setDimensions] =
+    useState<ListItemProps[]>(InitialDimensions);
 
-const Item: React.FC<ItemProps> = ({ id, name, handleDragStart }) => (
-  <div id={id} className="item" draggable onDragStart={handleDragStart}>
-    {name}
-  </div>
-);
+  const [measures, setMeasures] = useState<ListItemProps[]>(InitialMeasures);
 
-interface DropZoneProps {
-  handleDrop: (e: DragEvent<HTMLDivElement>) => void;
-  handleDragOver: (e: DragEvent<HTMLDivElement>) => void;
-  droppedItem: ItemProps | null;
-}
+  const [droppedDimension, setDroppedDimension] =
+    useState<ListItemProps | null>(null);
 
-export const DropZone: React.FC<DropZoneProps> = ({
-  handleDrop,
-  handleDragOver,
-  droppedItem,
-}) => (
-  <div
-    id="dropzone"
-    className="dropzone"
-    onDrop={handleDrop}
-    onDragOver={handleDragOver}
-  >
-    Drop items here
-    {droppedItem && <div className="droppedItem">{droppedItem.name}</div>}
-  </div>
-);
-
-interface ListProps {
-  items: ItemProps[];
-  setItems: React.Dispatch<React.SetStateAction<ItemProps[]>>;
-  droppedItem: ItemProps | null;
-  setDroppedItem: React.Dispatch<React.SetStateAction<ItemProps | null>>;
-}
-
-const List: React.FC<ListProps> = ({
-  items,
-  setItems,
-  droppedItem,
-  setDroppedItem,
-}) => {
-  const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
-    e.dataTransfer.setData("text/plain", e.currentTarget.id);
-  };
+  const [droppedMeasure, setDroppedMeasure] = useState<ListItemProps | null>(
+    null
+  );
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
 
-  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+  const handleDropDimension = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const id = e.dataTransfer.getData("text");
-    const newDroppedItem = items.find((item) => item.id === id);
+    const newDroppedItem = dimensions.find((item) => item.id === id);
     if (newDroppedItem) {
-      setItems((prevItems) => prevItems.filter((item) => item.id !== id));
-      if (droppedItem) {
-        setItems((prevItems) => [...prevItems, droppedItem]);
+      setDimensions((prevItems) => prevItems.filter((item) => item.id !== id));
+      if (droppedDimension) {
+        setDimensions((prevItems) => [...prevItems, droppedDimension]);
       }
-      setDroppedItem(newDroppedItem);
+      setDroppedDimension(newDroppedItem);
     }
   };
 
-  const handleClear = () => {
-    if (droppedItem) {
-      setItems((prevItems) => [...prevItems, droppedItem]);
-      setDroppedItem(null);
+  const handleDropMeasure = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const id = e.dataTransfer.getData("text");
+    const newDroppedMeasure = measures.find((item) => item.id === id);
+    if (newDroppedMeasure) {
+      setMeasures((prevItems) => prevItems.filter((item) => item.id !== id));
+      if (droppedMeasure) {
+        setMeasures((prevItems) => [...prevItems, droppedMeasure]);
+      }
+      setDroppedMeasure(newDroppedMeasure);
+    }
+  };
+
+  const handleClearDimension = () => {
+    if (droppedDimension) {
+      setDimensions((prevItems) => [...prevItems, droppedDimension]);
+      setDroppedDimension(null);
+    }
+  };
+
+  const handleClearMeassure = () => {
+    if (droppedMeasure) {
+      setMeasures((prevItems) => [...prevItems, droppedMeasure]);
+      setDroppedMeasure(null);
     }
   };
 
   return (
-    <div>
-      {items.map((item) => (
-        <Item key={item.id} {...item} handleDragStart={handleDragStart} />
-      ))}
-      <DropZone
-        handleDrop={handleDrop}
-        handleDragOver={handleDragOver}
-        droppedItem={droppedItem}
-      />
-      <button onClick={handleClear}>Clear</button>
-    </div>
-  );
-};
+    <div className="container">
+      <div className="menu">
+        <ListItems
+          items={dimensions}
+          setItems={setDimensions}
+          droppedItem={droppedDimension}
+          setDroppedItem={setDroppedDimension}
+        />
+        <ListItems
+          items={measures}
+          setItems={setMeasures}
+          droppedItem={droppedMeasure}
+          setDroppedItem={setDroppedMeasure}
+        />
+      </div>
+      <div className="content">
+        <DropZone
+          handleDrop={handleDropDimension}
+          handleDragOver={handleDragOver}
+          droppedItem={droppedDimension}
+        />
+        <button onClick={handleClearDimension}>Clear</button>
 
-export const DragAndDrop: React.FC = () => {
-  const [items, setItems] = useState<ItemProps[]>([
-    { id: "item1", name: "Item 1" },
-    { id: "item2", name: "Item 2" },
-  ]);
-  const [droppedItem, setDroppedItem] = useState<ItemProps | null>(null);
-
-  const [measures, setMeasures] = useState<ItemProps[]>([
-    { id: "measure1", name: "Measure 1" },
-    { id: "measure2", name: "Measure 2" },
-  ]);
-  const [droppedMeasure, setDroppedMeasure] = useState<ItemProps | null>(null);
-
-  return (
-    <div>
-      <List
-        items={items}
-        setItems={setItems}
-        droppedItem={droppedItem}
-        setDroppedItem={setDroppedItem}
-      />
-      <List
-        items={measures}
-        setItems={setMeasures}
-        droppedItem={droppedMeasure}
-        setDroppedItem={setDroppedMeasure}
-      />
+        <DropZone
+          handleDrop={handleDropMeasure}
+          handleDragOver={handleDragOver}
+          droppedItem={droppedMeasure}
+        />
+        <button onClick={handleClearMeassure}>Clear</button>
+      </div>
     </div>
   );
 };
