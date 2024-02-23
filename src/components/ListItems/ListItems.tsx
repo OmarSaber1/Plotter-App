@@ -1,9 +1,9 @@
 import React, { DragEvent } from "react";
 import { ListItemProps, ListItemsProps } from "../../types/ListProps";
 
-const Item: React.FC<ListItemProps> = ({ id, name, handleDragStart }) => (
+const Item: React.FC<ListItemProps> = ({ id, handleDragStart }) => (
   <div id={id} className="item" draggable onDragStart={handleDragStart}>
-    {name}
+    {id}
   </div>
 );
 
@@ -14,8 +14,8 @@ export const ListItems: React.FC<ListItemsProps> = ({ items }) => {
 
   return (
     <div className="list">
-      {items.map((item) => (
-        <Item key={item.id} {...item} handleDragStart={handleDragStart} />
+      {items?.map((item) => (
+        <Item key={item} id={item} handleDragStart={handleDragStart} />
       ))}
     </div>
   );

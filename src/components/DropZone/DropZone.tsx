@@ -5,6 +5,7 @@ export const DropZone: React.FC<DropZoneProps> = ({
   handleDrop,
   handleDragOver,
   droppedItem,
+  dropZoneName,
 }) => (
   <div
     id="dropzone"
@@ -12,7 +13,7 @@ export const DropZone: React.FC<DropZoneProps> = ({
     onDrop={handleDrop}
     onDragOver={handleDragOver}
   >
-    Drop items here
-    {droppedItem && <div className="droppedItem">{droppedItem.name}</div>}
+    Drop {dropZoneName} here
+    {droppedItem && <div className="droppedItem">{droppedItem}</div>}
   </div>
 );

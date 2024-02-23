@@ -1,9 +1,14 @@
-import { useState } from "react";
-import { ListItemProps } from "../types/ListProps";
+import { useEffect, useState } from "react";
 
-export const useDragAndDrop = (initialItems: ListItemProps[]) => {
-  const [items, setItems] = useState(initialItems);
-  const [droppedItem, setDroppedItem] = useState<ListItemProps | null>(null);
+export const useDragAndDrop = (initialItems?: string[]) => {
+  const [items, setItems] = useState<string[]>([]);
+  const [droppedItem, setDroppedItem] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (initialItems) {
+      setItems(initialItems);
+    }
+  }, [initialItems]);
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -12,11 +17,11 @@ export const useDragAndDrop = (initialItems: ListItemProps[]) => {
   const handleDrop = (e) => {
     e.preventDefault();
     const id = e.dataTransfer.getData("text");
-    const newDroppedItem = items.find((item) => item.id === id);
+    const newDroppedItem = items?.find((item) => item === id);
     if (newDroppedItem) {
-      setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+      setItems((prevItems) => prevItems?.filter((item) => item !== id));
       if (droppedItem) {
-        setItems((prevItems) => [...prevItems, droppedItem]);
+        setItems((prevItems) => [...(prevItems ?? []), droppedItem]);
       }
       setDroppedItem(newDroppedItem);
     }
@@ -24,7 +29,7 @@ export const useDragAndDrop = (initialItems: ListItemProps[]) => {
 
   const handleClear = () => {
     if (droppedItem) {
-      setItems((prevItems) => [...prevItems, droppedItem]);
+      setItems((prevItems) => [...(prevItems ?? []), droppedItem]);
       setDroppedItem(null);
     }
   };

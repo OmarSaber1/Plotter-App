@@ -1,24 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DropZone } from "../DropZone/DropZone";
 import { ListItems } from "../ListItems/ListItems";
-import { InitialDimensions, InitialMeasures } from "./constants";
-import "./DragAndDrop.css";
 import { useDragAndDrop } from "../../hooks/useDragAndDrop";
+import { getColumnsList } from "../../services/getColumnsList";
+import "./DragAndDrop.css";
 
 export const DragAndDrop: React.FC = () => {
+  const [columnsData, setColumnsData] = useState<{
+    [x: string]: string[];
+  }>();
+
   const {
     items: dimensions,
     droppedItem: droppedDimension,
     handleDragOver,
     handleDrop: handleDropDimension,
     handleClear: handleClearDimension,
-  } = useDragAndDrop(InitialDimensions);
+  } = useDragAndDrop(columnsData?.dimension);
   const {
     items: measures,
     droppedItem: droppedMeasure,
     handleDrop: handleDropMeasure,
     handleClear: handleClearMeassure,
-  } = useDragAndDrop(InitialMeasures);
+  } = useDragAndDrop(columnsData?.measure);
+
+  useEffect(() => {
+    (async () => {
+      const columnsList = await getColumnsList();
+      setColumnsData(columnsList);
+    })();
+  }, []);
 
   return (
     <div className="container">
@@ -31,6 +42,7 @@ export const DragAndDrop: React.FC = () => {
           handleDrop={handleDropDimension}
           handleDragOver={handleDragOver}
           droppedItem={droppedDimension}
+          dropZoneName="Dimension"
         />
         <button onClick={handleClearDimension}>Clear</button>
 
@@ -38,6 +50,7 @@ export const DragAndDrop: React.FC = () => {
           handleDrop={handleDropMeasure}
           handleDragOver={handleDragOver}
           droppedItem={droppedMeasure}
+          dropZoneName="Measure"
         />
         <button onClick={handleClearMeassure}>Clear</button>
       </div>
