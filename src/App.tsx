@@ -49,6 +49,7 @@ export const App = () => {
         </div>
         <div className="content">
           <div className="dropZoneContainer">
+            <div style={{ width: 70 }}>Dimension</div>
             <DropZone
               handleDrop={handleDropDimension}
               handleDragOver={handleDragOver}
@@ -58,6 +59,7 @@ export const App = () => {
             <button onClick={handleClearDimension}>Clear</button>
           </div>
           <div className="dropZoneContainer">
+            <div style={{ width: 70 }}>Measure</div>
             <DropZone
               handleDrop={handleDropMeasure}
               handleDragOver={handleDragOver}
