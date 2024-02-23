@@ -1,0 +1,7 @@
+.line-chart-container {
+  width: 800;
+  height: 600;
+  display: "flex";
+  justify-content: "center";
+  align-items: "start";
+}

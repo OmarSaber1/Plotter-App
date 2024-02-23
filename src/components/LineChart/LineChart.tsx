@@ -53,8 +53,8 @@ export const LineChart = ({
             label: measure ?? "",
             data: lineChartData.dataset ?? [],
             fill: false,
-            backgroundColor: "rgb(75, 192, 192)",
-            borderColor: "rgba(75, 192, 192, 0.2)",
+            backgroundColor: "skyblue",
+            borderColor: "blue",
           },
         ],
       }}
@@ -68,15 +68,7 @@ export const LineChart = ({
         <h3 className="title">Line Chart</h3>
       </div>
       {lineChartData && (
-        <div
-          style={{
-            width: 800,
-            height: 600,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "start",
-          }}
-        >
+        <div className="line-chart-container">
           {isLoading ? <Spinner /> : chart}
         </div>
       )}

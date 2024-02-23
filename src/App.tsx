@@ -35,14 +35,7 @@ export const App = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100vh",
-        width: "100vw",
-      }}
-    >
+    <div className="app-container">
       <div className="plotter-header">
         <h3>Plotter App</h3>
       </div>
