@@ -4,8 +4,8 @@ import { useDragAndDrop } from "./hooks/useDragAndDrop";
 import { getColumnsList } from "./services/getColumnsList";
 import { ListItems } from "./components/ListItems/ListItems";
 import { DropZone } from "./components/DropZone/DropZone";
-import "./App.css";
 import { LineChart } from "./components/LineChart/LineChart";
+import "./App.css";
 
 export const App = () => {
   const [columnsData, setColumnsData] = useState<{
@@ -35,30 +35,38 @@ export const App = () => {
   }, []);
 
   return (
-    <div className="container">
-      <div className="menu">
-        <ListItems items={dimensions} droppedItem={droppedDimension} />
-        <ListItems items={measures} droppedItem={droppedMeasure} />
+    <>
+      <div className="plotter-header">
+        <h1>Plotter App</h1>
       </div>
-      <div className="content">
-        <DropZone
-          handleDrop={handleDropDimension}
-          handleDragOver={handleDragOver}
-          droppedItem={droppedDimension}
-          dropZoneName="Dimension"
-        />
-        <button onClick={handleClearDimension}>Clear</button>
-
-        <DropZone
-          handleDrop={handleDropMeasure}
-          handleDragOver={handleDragOver}
-          droppedItem={droppedMeasure}
-          dropZoneName="Measure"
-        />
-        <button onClick={handleClearMeassure}>Clear</button>
+      <div className="container">
+        <div className="menu">
+          <ListItems items={dimensions} droppedItem={droppedDimension} />
+          <ListItems items={measures} droppedItem={droppedMeasure} />
+        </div>
+        <div className="content">
+          <div className="dropZoneContainer">
+            <DropZone
+              handleDrop={handleDropDimension}
+              handleDragOver={handleDragOver}
+              droppedItem={droppedDimension}
+              dropZoneName="Dimension"
+            />
+            <button onClick={handleClearDimension}>Clear</button>
+          </div>
+          <div className="dropZoneContainer">
+            <DropZone
+              handleDrop={handleDropMeasure}
+              handleDragOver={handleDragOver}
+              droppedItem={droppedMeasure}
+              dropZoneName="Measure"
+            />
+            <button onClick={handleClearMeassure}>Clear</button>
+          </div>
+          <LineChart dimension={droppedDimension} measure={droppedMeasure} />
+        </div>
+        <ToastContainer />
       </div>
-      <LineChart dimension={droppedDimension} measure={droppedMeasure} />
-      <ToastContainer />
-    </div>
+    </>
   );
 };
