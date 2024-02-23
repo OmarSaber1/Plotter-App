@@ -9,6 +9,8 @@ import {
   Tooltip,
 } from "chart.js";
 import { postLineChartData } from "../../services/postLineChartData";
+import { getChartOptions } from "../../utils/getChartOptions";
+import Spinner from "../Spinner/Spinner";
 
 Chart.register(LinearScale, CategoryScale, PointElement, LineElement, Tooltip);
 
@@ -21,30 +23,7 @@ export const LineChart = ({
 }) => {
   const [lineChartData, setLineChartData] = useState<any>();
   const [isLoading, setIsLoading] = useState(false);
-
-  const options = {
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: dimension ?? "",
-        },
-        beginAtZero: true,
-      },
-      y: {
-        title: {
-          display: true,
-          text: measure ?? "",
-        },
-        beginAtZero: true,
-      },
-    },
-    plugins: {
-      tooltip: {
-        enabled: true,
-      },
-    },
-  };
+  const options = getChartOptions(dimension, measure);
 
   useEffect(() => {
     (async () => {
@@ -65,32 +44,40 @@ export const LineChart = ({
     })();
   }, [measure, dimension]);
 
+  const chart = lineChartData ? (
+    <Line
+      data={{
+        labels: lineChartData.labels ?? [],
+        datasets: [
+          {
+            label: measure ?? "",
+            data: lineChartData.dataset ?? [],
+            fill: false,
+            backgroundColor: "rgb(75, 192, 192)",
+            borderColor: "rgba(75, 192, 192, 0.2)",
+          },
+        ],
+      }}
+      options={options}
+    />
+  ) : null;
+
   return (
     <>
       <div className="header">
-        <h1 className="title">Line Chart</h1>
+        <h3 className="title">Line Chart</h3>
       </div>
       {lineChartData && (
-        <div style={{ width: 900, height: 500 }}>
-          {isLoading ? (
-            <p>Loading...</p>
-          ) : lineChartData ? (
-            <Line
-              data={{
-                labels: lineChartData.labels ?? [],
-                datasets: [
-                  {
-                    label: measure ?? "",
-                    data: lineChartData.dataset ?? [],
-                    fill: false,
-                    backgroundColor: "rgb(75, 192, 192)",
-                    borderColor: "rgba(75, 192, 192, 0.2)",
-                  },
-                ],
-              }}
-              options={options}
-            />
-          ) : null}
+        <div
+          style={{
+            width: 800,
+            height: 600,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "start",
+          }}
+        >
+          {isLoading ? <Spinner /> : chart}
         </div>
       )}
     </>

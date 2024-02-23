@@ -13,7 +13,7 @@ export const DropZone: React.FC<DropZoneProps> = ({
     onDrop={handleDrop}
     onDragOver={handleDragOver}
   >
-    Drop {dropZoneName} here
+    {!droppedItem ? <h3>{`Drop ${dropZoneName} here`}</h3> : ""}
     {droppedItem && <div className="droppedItem">{droppedItem}</div>}
   </div>
 );

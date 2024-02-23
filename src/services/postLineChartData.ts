@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import { axiosApi } from "./axiosApi";
 import { mapLineChartData } from "../utils/mapLineChartData";
+import { LineChartData } from "../types/LineChart";
 
 export const postLineChartData = async ({
   dimension,
@@ -15,7 +16,7 @@ export const postLineChartData = async ({
         measures: [measure],
         dimension,
       });
-      const data = response.data;
+      const data: LineChartData = response.data;
 
       const mappedLineChartData = mapLineChartData(data);
       return mappedLineChartData;

@@ -35,13 +35,23 @@ export const App = () => {
   }, []);
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100vh",
+        width: "100vw",
+      }}
+    >
       <div className="plotter-header">
-        <h1>Plotter App</h1>
+        <h3>Plotter App</h3>
       </div>
       <div className="container">
         <div className="menu">
+          <p>Dimensions</p>
           <ListItems items={dimensions} droppedItem={droppedDimension} />
+          <p>Measures</p>
+
           <ListItems items={measures} droppedItem={droppedMeasure} />
         </div>
         <div className="content">
@@ -67,6 +77,6 @@ export const App = () => {
         </div>
         <ToastContainer />
       </div>
-    </>
+    </div>
   );
 };
