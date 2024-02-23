@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { DragAndDrop } from "./components/DragAndDrop/DragAndDrop";
+import { ToastContainer } from "react-toastify";
 // import { LineChart } from "./components/LineChart/LineChart";
 
 export const App = () => {
@@ -32,6 +33,7 @@ export const App = () => {
       {/* {data && (
         <LineChart data={data} dimension={dimension} measures={measures} />
       )} */}
+      <ToastContainer />
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { mapColumnsList } from "../utils/mapColumnsList";
 import { axiosApi } from "./axiosApi";
 
@@ -8,6 +9,6 @@ export const getColumnsList = async () => {
     const mappedList = mapColumnsList(data);
     return mappedList;
   } catch (error) {
-    console.error("Error fetching data", error);
+    toast.error("Error fetching Columns Data, Please try Again!");
   }
 };
