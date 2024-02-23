@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { DropZone } from "../DropZone/DropZone";
-import { ListItems } from "../ListItems/ListItems";
-import { useDragAndDrop } from "../../hooks/useDragAndDrop";
-import { getColumnsList } from "../../services/getColumnsList";
-import "./DragAndDrop.css";
+import React, { useState, useEffect } from "react";
+import { ToastContainer } from "react-toastify";
+import { useDragAndDrop } from "./hooks/useDragAndDrop";
+import { getColumnsList } from "./services/getColumnsList";
+import { ListItems } from "./components/ListItems/ListItems";
+import { DropZone } from "./components/DropZone/DropZone";
+import "./App.css";
+import { LineChart } from "./components/LineChart/LineChart";
 
-export const DragAndDrop: React.FC = () => {
+export const App = () => {
   const [columnsData, setColumnsData] = useState<{
     [x: string]: string[];
   }>();
@@ -17,6 +19,7 @@ export const DragAndDrop: React.FC = () => {
     handleDrop: handleDropDimension,
     handleClear: handleClearDimension,
   } = useDragAndDrop(columnsData?.dimension);
+
   const {
     items: measures,
     droppedItem: droppedMeasure,
@@ -54,6 +57,8 @@ export const DragAndDrop: React.FC = () => {
         />
         <button onClick={handleClearMeassure}>Clear</button>
       </div>
+      <LineChart dimension={droppedDimension} measure={droppedMeasure} />
+      <ToastContainer />
     </div>
   );
 };
