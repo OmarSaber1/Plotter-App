@@ -1,27 +1,31 @@
 import React, { DragEvent } from "react";
 import { ListItemProps, ListItemsProps } from "../../types/ListProps";
 import Spinner from "../Spinner/Spinner";
+import { StyledItem, StyledList, StyledParagraph } from "../../App.styles";
 
 const Item: React.FC<ListItemProps> = ({ id, handleDragStart }) => (
-  <div id={id} className="item" draggable onDragStart={handleDragStart}>
+  <StyledItem id={id} draggable onDragStart={handleDragStart}>
     {id}
-  </div>
+  </StyledItem>
 );
 
-export const ListItems: React.FC<ListItemsProps> = ({ items }) => {
+export const ListItems: React.FC<ListItemsProps> = ({ items, title }) => {
   const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
     e.dataTransfer.setData("text/plain", e.currentTarget.id);
   };
 
   return (
-    <div className="list">
-      {items ? (
-        items.map((item) => (
-          <Item key={item} id={item} handleDragStart={handleDragStart} />
-        ))
-      ) : (
-        <Spinner />
-      )}
-    </div>
+    <>
+      <StyledParagraph>{title}</StyledParagraph>
+      <StyledList>
+        {items ? (
+          items.map((item) => (
+            <Item key={item} id={item} handleDragStart={handleDragStart} />
+          ))
+        ) : (
+          <Spinner />
+        )}
+      </StyledList>
+    </>
   );
 };

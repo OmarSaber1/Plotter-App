@@ -11,6 +11,8 @@ import {
 import { postLineChartData } from "../../services/postLineChartData";
 import { getChartOptions } from "../../utils/getChartOptions";
 import Spinner from "../Spinner/Spinner";
+import { StyledLineChartContainer } from "./LineChart.styles";
+import { LineChartType } from "../../types/LineChart";
 
 Chart.register(LinearScale, CategoryScale, PointElement, LineElement, Tooltip);
 
@@ -21,7 +23,7 @@ export const LineChart = ({
   measure: string | null;
   dimension: string | null;
 }) => {
-  const [lineChartData, setLineChartData] = useState<any>();
+  const [lineChartData, setLineChartData] = useState<LineChartType>();
   const [isLoading, setIsLoading] = useState(false);
   const options = getChartOptions(dimension, measure);
 
@@ -64,13 +66,10 @@ export const LineChart = ({
 
   return (
     <>
-      <div className="header">
-        <h3 className="title">Line Chart</h3>
-      </div>
       {lineChartData && (
-        <div className="line-chart-container">
+        <StyledLineChartContainer>
           {isLoading ? <Spinner /> : chart}
-        </div>
+        </StyledLineChartContainer>
       )}
     </>
   );

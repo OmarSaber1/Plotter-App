@@ -8,4 +8,5 @@ export interface ListItemProps {
 export interface ListItemsProps {
   items?: string[];
   droppedItem: string | null;
+  title: string;
 }
