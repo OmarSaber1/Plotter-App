@@ -1,5 +1,4 @@
 import { DragEvent } from "react";
-import { ListItemProps } from "./ListProps";
 
 export interface DropZoneProps {
   handleDrop: (e: DragEvent<HTMLDivElement>) => void;

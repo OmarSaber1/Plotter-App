@@ -11,7 +11,6 @@ import {
   StyledContentContainer,
   StyledHeader,
   StyledMenu,
-  StyledParagraph,
   StyledPlotterHeader,
 } from "./App.styles";
 
